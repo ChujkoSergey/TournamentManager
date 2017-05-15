@@ -1,11 +1,14 @@
-CREATE DATABASE TournamentMangerDB
+--CREATE DATABASE TournamentMangerDB
+--GO
 
 USE TournamentMangerDB
+GO
 
 CREATE TABLE [User]
 (
 	Id INTEGER NOT NULL IDENTITY(1, 1),
 	Nickname VARCHAR(16) NOT NULL,
+	Password VARCHAR(16) NOT NULL,
 	CreateDate DATETIME NOT NULL DEFAULT SYSDATETIME(),
 	Wins INTEGER NOT NULL DEFAULT 0,
 	Loses INTEGER NOT NULL DEFAULT 0,
@@ -28,6 +31,7 @@ GO
 CREATE TABLE Tournament
 (
 	Id INTEGER NOT NULL IDENTITY(1, 1),
+	Title VARCHAR(100) NOT NULL,
 	GameId INTEGER NOT NULL,
 	AdministartorId INTEGER NOT NULL,
 	CreateDate DATETIME NOT NULL DEFAULT SYSDATETIME(),
@@ -41,7 +45,8 @@ CREATE TABLE Tournament
 	CONSTRAINT FK_Tournament_User_WinerId FOREIGN KEY(WinerId) REFERENCES [User](Id),
 	CONSTRAINT CH_Tournament_MaxNumberOfMemebers CHECK(MaxNumberOfMembers > 1),
 	CONSTRAINT CH_Tournament_Gameid CHECK(GameId > 0),
-	CONSTRAINT CH_Tournament_AdministartorId CHECK(AdministartorId > 0)
+	CONSTRAINT CH_Tournament_AdministartorId CHECK(AdministartorId > 0),
+	CONSTRAINT CH_Tournament_EventDate CHECK(EventDate > CreateDate)
 )
 GO
 
@@ -49,7 +54,7 @@ CREATE TABLE Members
 (
 	TournamentId INTEGER NOT NULL,
 	MemberId INTEGER NOT NULL,
-	CONSTRAINT PK_Members PRIMARY KEY (TournamentId, MemberId),
+	--CONSTRAINT PK_Members PRIMARY KEY (TournamentId, MemberId),
 	CONSTRAINT FK_Members_Tournament FOREIGN KEY (TournamentId) REFERENCES Tournament(id),
 	CONSTRAINT FK_Members_User FOREIGN KEY (TournamentId) REFERENCES [User](id),
 	CONSTRAINT CH_Members_TournamentId CHECK(TournamentId > 0),

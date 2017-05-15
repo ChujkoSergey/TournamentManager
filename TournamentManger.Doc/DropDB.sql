@@ -1,5 +1,12 @@
 USE TournamentMangerDB
+GO
 
+
+--TRUNCATE TABLE Pairs
+--TRUNCATE TABLE Members
+--DELETE FROM Tournament
+--DELETE FROM Game
+--DELETE FROM [User]
 
 DROP TABLE Members
 GO
@@ -15,6 +22,5 @@ GO
 
 DROP TABLE [User]
 GO
-
 
 --DROP DATABASE TournamentMangerDB
